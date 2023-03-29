@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               color: Colors.lightBlue,
               child: const Text(
-                      'This is example paragraph for Widget text in Flutter Basic App',
+                      'This is example paragraph for Widget text in Flutter Basic Application',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24,
