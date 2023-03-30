@@ -1,50 +1,74 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+  /*
+    -- Flexible Widget --
+    So when u want to make a proportional size of Widget, u can use Flexible
+    u can set total size amount of Widget
+    For example in this case study, we make a Column that have 3 Container
+    - First one is 1/4 from Device Height
+    - Second one is 2/4 or (1/2) from Device Height
+    - Third one is 1/4 from Device Height
 
-class _MyAppState extends State<MyApp> {
-  Random random = Random(); // Make a Random Object from "dart:math"
+    So u can total it 1/4 + 2/4 + 1/4 = 4/4
+    total amount is 4, so u can input in into "flex" property on Flexible Widget
+  */
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('AnimatedContainer & GestureDetector'),
-          ),
-          body: Center(
-            // Wrap AnimatedContainer with GestureDetector to add onTap Function
-            // So when u tap the Container it will be generated Random size and color
-            child: GestureDetector(
-              onTap: () {
-                setState(() {});
-              },
-              child: AnimatedContainer(
-                duration: Duration(seconds: 1),
-                color: Color.fromARGB(
-                    255,
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(
-                        256)), // "nextInt()" make a random from 0 - max (0 is Inclusive and Max is Exclusive)
-                width: 50.0 + random.nextInt(101),
-                height: 50.0 + random.nextInt(101),
-              ),
-            ),
-          )),
+        appBar: AppBar(
+          title: Text('Flexible Widget'),
+        ),
+        body: Column(
+          children: [
+            Flexible(
+                flex: 1, // Make a part that has 1 Flex from total 4 Flex
+                child: Row(
+                  children: [
+                    Flexible(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          color: Colors.orange,
+                        )),
+                    Flexible(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          color: Colors.lightBlue,
+                        )),
+                    Flexible(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          color: Colors.green,
+                        )),
+                  ],
+                )),
+            Flexible(
+                flex: 2, // Make a part that has 2 Flex from total 4 Flex
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: Colors.red,
+                )),
+            Flexible(
+                flex: 1, // Make a part that has 1 Flex from total 4 Flex
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  color: Colors.blue,
+                )),
+          ],
+        ),
+      ),
     );
   }
 }
