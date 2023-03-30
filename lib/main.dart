@@ -6,43 +6,57 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Widget> dataWidgets = []; // Make a list that has Widget Type
+  int counter = 1; // Counter
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Text Style'),
+          title: Text('List View'),
         ),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'This is regular text',
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 24,
-                  decoration: TextDecoration.overline,
-                  decorationColor: Colors.blue,
-                  decorationThickness: 5,
-                  decorationStyle: TextDecorationStyle.wavy),
+        body: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  // Using Anonymous Function to setState and Add Widget
+                    onPressed: () {
+                      setState(() {
+                        dataWidgets.add(Text(
+                          'Data - $counter',
+                          style: TextStyle(fontSize: 36),
+                        ));
+                        counter++;
+                      });
+                    },
+                    child: Text('Add Data')),
+                ElevatedButton(
+                  // Using Anonymous Function to setState and Remove Widget
+                    onPressed: () {
+                      setState(() {
+                        dataWidgets.removeLast();
+                        counter--;
+                      });
+                    },
+                    child: Text('Remove Data'))
+              ],
             ),
-            Text(
-              'This is italic text',
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontStyle: FontStyle.italic,
-                  fontSize: 24,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.blue,
-                  decorationThickness: 5,
-                  decorationStyle: TextDecorationStyle.dashed),
-            ),
+            Column(
+              children: dataWidgets,
+            )
           ],
-        )),
+        ),
       ),
     );
   }
