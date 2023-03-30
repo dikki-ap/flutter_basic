@@ -1,32 +1,55 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int number = 0; // Declare number as int
+
+  void addNumber() {
+    // Use setState to refresh page when button pressed, and update number value
+    setState(() {
+      number += 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Flutter Basic'),
+        appBar: AppBar(
+          title: Text('Learn Stateful Widget'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                number.toString(),
+                style: TextStyle(
+                    fontSize: 10 +
+                        number
+                            .toDouble()), // Making fontSize grow bigger when button pressed
+              ),
+              ElevatedButton(
+                onPressed:
+                    addNumber, // Running addNumber() function when button pressed
+                child: Text('Add'),
+              )
+            ],
           ),
-          body: Container(
-            color: Colors.red[400],
-            margin: const EdgeInsets.all(20), // For distance from outside Widget
-            padding: const EdgeInsets.all(20), // For distance from Inside Widget
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Colors.amber, Colors.blue])),
-            ),
-          )),
+        ),
+      ),
     );
   }
 }
