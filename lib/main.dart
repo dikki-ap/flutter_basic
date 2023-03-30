@@ -10,100 +10,58 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> sampleText = [];
-
-    for (var i = 1; i <= 25; i++) {
-      sampleText.add(Text(
-        'This is sample text $i',
-        style: TextStyle(fontSize: 36),
-      ));
-    }
-
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Stack & Align'),
-          ),
-          /*
-            -- Stack --
-            Like a stacking Widget, first Widget will be the base Layout (Bottom)
-           */
-          body: Stack(
+        appBar: AppBar(
+          title: Text('Image Widget'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // First Layout (Base)
-              Column(
-                children: [
-                  Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.black12,
-                            ),
-                          ),
-                        ],
-                      )),
-                  Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.black12,
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ))
-                ],
+              Container(
+                width: 200,
+                height: 200,
+                color: Colors.black,
+                child: Image(
+                  image: AssetImage('assets/img/kost_1.png'),
+                  fit: BoxFit.cover, // Default "BoxFit.contain"
+                ),
               ),
-
-              // Second Layout
-              ListView(
-                children: [
-                  Column(
-                    children: sampleText,
-                  )
-                ],
+              SizedBox(
+                height: 24,
               ),
-
-              // Third Layout
-              Align(
-                  /*
-                    --- Align --
-                    "alignment" property need 2 params "x" and "y"
-
-                    For x:
-                    1: Top
-                    0: Middle
-                    -1: Bottom
-
-                    For y:
-                    1: Bottom
-                    0: Middle
-                    -1: Top
-
-                    If u want to adjust the position u can use custom number like double
-                  */
-                  alignment: Alignment(0, 0.75),
-                  child: ElevatedButton(
-                      onPressed: () {}, child: Text('Example Button')))
+              Container(
+                width: 200,
+                height: 200,
+                color: Colors.black,
+                child: Image(
+                    image: AssetImage('assets/img/kost_2.png'),
+                    fit: BoxFit.contain, // Default "BoxFit.contain"
+                    repeat: ImageRepeat
+                        .repeat // Using "repeat" if the image doesn't fill all Contianer
+                    ),
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              Container(
+                width: 200,
+                height: 200,
+                color: Colors.black,
+                child: Image(
+                    // Using NetworkImage
+                    image: NetworkImage(
+                        'https://media.hrs.com/media/image/b9/9a/93/Medical_Kost-Melati-Aussenansicht-907283_600x600.jpg'),
+                    fit: BoxFit.contain, // Default "BoxFit.contain"
+                    repeat: ImageRepeat
+                        .repeat // Using "repeat" if the image doesn't fill all Contianer
+                    ),
+              ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
