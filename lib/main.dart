@@ -16,19 +16,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int number = 0; // Declare number as int
 
-  void addNumber() {
-    // Use setState to refresh page when button pressed, and update number value
-    setState(() {
-      number += 1;
-    });
-  }
+  // void addNumber() {
+  //   // Use setState to refresh page when button pressed, and update number value
+  //   setState(() {
+  //     number += 1;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Learn Stateful Widget'),
+          title: Text('Anonymous Method on Stateful Widget'),
         ),
         body: Center(
           child: Column(
@@ -42,8 +42,12 @@ class _MyAppState extends State<MyApp> {
                             .toDouble()), // Making fontSize grow bigger when button pressed
               ),
               ElevatedButton(
-                onPressed:
-                    addNumber, // Running addNumber() function when button pressed
+                // U can use Anonymous Method when u just only make a function that used once
+                onPressed: () {
+                  setState(() {
+                    number += 1;
+                  });
+                }, // Running addNumber() function when button pressed
                 child: Text('Add'),
               )
             ],
