@@ -12,56 +12,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Image Widget'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 200,
-                height: 200,
-                color: Colors.black,
-                child: Image(
-                  image: AssetImage('assets/img/kost_1.png'),
-                  fit: BoxFit.cover, // Default "BoxFit.contain"
-                ),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Container(
-                width: 200,
-                height: 200,
-                color: Colors.black,
-                child: Image(
-                    image: AssetImage('assets/img/kost_2.png'),
-                    fit: BoxFit.contain, // Default "BoxFit.contain"
-                    repeat: ImageRepeat
-                        .repeat // Using "repeat" if the image doesn't fill all Contianer
-                    ),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Container(
-                width: 200,
-                height: 200,
-                color: Colors.black,
-                child: Image(
-                    // Using NetworkImage
-                    image: NetworkImage(
-                        'https://media.hrs.com/media/image/b9/9a/93/Medical_Kost-Melati-Aussenansicht-907283_600x600.jpg'),
-                    fit: BoxFit.contain, // Default "BoxFit.contain"
-                    repeat: ImageRepeat
-                        .repeat // Using "repeat" if the image doesn't fill all Contianer
-                    ),
-              ),
-            ],
+          appBar: AppBar(
+            title: Text('Spacer Widget'),
           ),
-        ),
-      ),
+          body: Center(
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween, // This will be give space between Widget for the same amount
+              children: [
+                Spacer(
+                  flex: 1,
+                ), // Or u can use "flex" property on Spacer to make it Flexible
+                Container(
+                  width: 80,
+                  height: 80,
+                  color: Colors.red,
+                ),
+                Spacer(
+                  flex: 2,
+                ), // Or u can use "flex" property on Spacer to make it Flexible
+                // Spacer(), // Or u can use Empty Spacer like this instead of spaceBetween
+                Container(
+                  width: 80,
+                  height: 80,
+                  color: Colors.green,
+                ),
+                Spacer(
+                  flex: 3,
+                ), // Or u can use "flex" property on Spacer to make it Flexible
+                // Spacer(), // Or u can use Empty Spacer like this instead of spaceBetween
+                Container(
+                  width: 80,
+                  height: 80,
+                  color: Colors.blue,
+                ),
+                Spacer(
+                  flex: 2,
+                ), // Or u can use "flex" property on Spacer to make it Flexible
+              ],
+            ),
+          )),
     );
   }
 }
