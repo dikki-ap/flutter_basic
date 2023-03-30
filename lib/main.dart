@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Flutter Basic'),
           ),
-          body: Row(
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text('Text 1'),
