@@ -54,6 +54,12 @@ class _MyAppState extends State<MyApp> {
                       },
                       controller:
                           controller, // U need to make Controller into TextField
+                      decoration: InputDecoration(
+                          labelText: 'Fullname',
+                          prefixIcon: Icon(Icons.person),
+                          hintText: 'Your fullname',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(24))),
                     )),
                 Text(controller.text)
               ],
