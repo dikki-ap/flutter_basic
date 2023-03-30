@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       appBar: AppBar(
         leading: Icon(Icons.adb),
         title: Text(
-          'Custom AppBar',
+          'Card Widget',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -34,6 +34,30 @@ class MyApp extends StatelessWidget {
                   repeat: ImageRepeat.repeat)),
         ),
       ),
+      body: Container(
+        padding: EdgeInsets.all(8),
+        color: Colors.green,
+        child: ListView(
+          children: [
+            buildCard(Icons.search, 'Search'),
+            buildCard(Icons.account_box, 'Account'),
+            buildCard(Icons.phone, 'Call'),
+          ],
+        ),
+      ),
     ));
+  }
+
+  // Extract Method to create Card
+  // Need 2 params, IconData, and Text (U CAN CUSTOM IT)
+  Card buildCard(IconData iconData, String text) {
+    return Card(
+      child: Row(
+        children: [
+          Container(margin: EdgeInsets.all(8), child: Icon(iconData)),
+          Text(text)
+        ],
+      ),
+    );
   }
 }
