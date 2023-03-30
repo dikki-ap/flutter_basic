@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,50 +16,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Widget> dataWidgets = []; // Make a list that has Widget Type
-  int counter = 1; // Counter
+  Random random = Random(); // Make a Random Object from "dart:math"
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('List View'),
-        ),
-        body: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  // Using Anonymous Function to setState and Add Widget
-                    onPressed: () {
-                      setState(() {
-                        dataWidgets.add(Text(
-                          'Data - $counter',
-                          style: TextStyle(fontSize: 36),
-                        ));
-                        counter++;
-                      });
-                    },
-                    child: Text('Add Data')),
-                ElevatedButton(
-                  // Using Anonymous Function to setState and Remove Widget
-                    onPressed: () {
-                      setState(() {
-                        dataWidgets.removeLast();
-                        counter--;
-                      });
-                    },
-                    child: Text('Remove Data'))
-              ],
+          appBar: AppBar(
+            title: Text('AnimatedContainer & GestureDetector'),
+          ),
+          body: Center(
+            // Wrap AnimatedContainer with GestureDetector to add onTap Function
+            // So when u tap the Container it will be generated Random size and color
+            child: GestureDetector(
+              onTap: () {
+                setState(() {});
+              },
+              child: AnimatedContainer(
+                duration: Duration(seconds: 1),
+                color: Color.fromARGB(
+                    255,
+                    random.nextInt(256),
+                    random.nextInt(256),
+                    random.nextInt(
+                        256)), // "nextInt()" make a random from 0 - max (0 is Inclusive and Max is Exclusive)
+                width: 50.0 + random.nextInt(101),
+                height: 50.0 + random.nextInt(101),
+              ),
             ),
-            Column(
-              children: dataWidgets,
-            )
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
