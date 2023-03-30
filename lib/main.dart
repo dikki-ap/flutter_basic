@@ -14,15 +14,18 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Flutter Basic'),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Text 1'),
-              SizedBox(width: 8.0,),
-              Text('Text 2'),
-              SizedBox(width: 8.0,),
-              Text('Text 3'),
-            ],
+          body: Container(
+            color: Colors.red[400],
+            margin: const EdgeInsets.all(20), // For distance from outside Widget
+            padding: const EdgeInsets.all(20), // For distance from Inside Widget
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.amber, Colors.blue])),
+            ),
           )),
     );
   }
