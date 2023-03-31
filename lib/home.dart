@@ -18,52 +18,110 @@ class HomePage extends StatelessWidget {
     final bodyHeight = deviceHeight - appBarHeight - statusBarHeight;
 
     return Scaffold(
-        appBar: appBar('InkWell Custom Button'),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Normal Button using ElevatedButton
-              ElevatedButton(onPressed: () {}, child: Text('Elevated Button')),
-
-              // InkWell Custom Button
-              Material(
-                borderRadius: BorderRadius.circular(
-                    24), // Make sure u have same borderRadius with Outer Style (Container)
-                elevation: 5,
-                child: Container(
-                  width: 150,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(
-                        colors: const [Colors.pink, Colors.purple],
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(
-                        24), // Make sure u have same borderRadius with Outer Style (Container)
-                    color: Colors
-                        .transparent, // U need to use this if u already make a custom Container, so Material doesn't override Container Style
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(
-                          24), // Make sure u have same borderRadius with Outer Style (Container)
-                      onTap: () {},
-                      splashColor: Colors
-                          .blue, // U can change splashColor when u hold the Button
-                      child: Center(
-                          child: Text(
-                        'InkWell Button',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      )),
-                    ),
+        appBar: appBar('Custom Card (Opacity)'),
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: const [Colors.white, Colors.purple],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight)),
+            ),
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: bodyHeight * 0.7,
+                child: Card(
+                  elevation: 10,
+                  child: Stack(
+                    children: [
+                      Opacity(
+                        opacity: 0.7,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/img/bg_pattern.jpg'),
+                                  fit: BoxFit.cover)),
+                        ),
+                      ),
+                      Container(
+                        height: bodyHeight * 0.35, // 1/2 from Card Height
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4),
+                                topRight: Radius.circular(4)),
+                            image: DecorationImage(
+                                image: AssetImage('assets/img/background.jpg'),
+                                fit: BoxFit.cover)),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(
+                            20, 50 + bodyHeight * 0.35, 20, 20),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                'Gradient Custom Background Wallpaper',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.purple,
+                                  fontSize: 24,
+                                ),
+                                maxLines: 2,
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      'Posted on ',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      '31 March 2022 ',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.purple),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: const [
+                                  Spacer(
+                                    flex: 10,
+                                  ),
+                                  Icon(Icons.thumb_up, color: Colors.purple),
+                                  Spacer(
+                                    flex: 1,
+                                  ),
+                                  Text('999'),
+                                  Spacer(
+                                    flex: 5,
+                                  ),
+                                  Icon(Icons.comment, color: Colors.purple),
+                                  Spacer(
+                                    flex: 1,
+                                  ),
+                                  Text('898'),
+                                  Spacer(
+                                    flex: 10,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ));
   }
 }

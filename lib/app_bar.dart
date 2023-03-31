@@ -10,7 +10,6 @@ AppBar appBar(String title) {
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     ),
     actions: [
-      IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
       IconButton(onPressed: () {}, icon: Icon(Icons.exit_to_app)),
     ],
     flexibleSpace: Container(
