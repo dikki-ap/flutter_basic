@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_basic/home.dart';
 
 void main() {
+  runApp(const MyApp());
   // Setting always Potrait Up
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) => {runApp(const MyApp())});
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((_) => {runApp(const MyApp())});
 }
 
 class MyApp extends StatelessWidget {
