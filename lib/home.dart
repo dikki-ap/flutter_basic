@@ -23,65 +23,31 @@ class HomePage extends StatelessWidget {
 
     final bodyHeight = deviceHeight - appBarHeight - statusBarHeight;
 
-    return Scaffold(
-        appBar: appBar('Hero Animation'),
-        backgroundColor: Colors.blue[50],
-        // Using ClipRRect to Wrap Container into RoundedRectangle
-        body: GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return SecondPage();
-            }));
-          },
-          // Wrap Image with Hero to change with HeroAnimation
-          child: Hero(
-            tag: 'jennie_picture',
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Container(
-                width: 200,
-                height: 200,
-                child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://inikpop.com/wp-content/uploads/2018/12/jennie.jpg')),
-              ),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+          appBar: appBar('TabBar on AppBar', [
+            Tab(
+              icon: Icon(Icons.thumb_up),
+              text: 'Like',
             ),
-          ),
-        ));
-  }
-}
-
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBar('Second Page'),
-        backgroundColor: Colors.blue[50],
-        // Using ClipRRect to Wrap Container into RoundedRectangle
-        body: Center(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            // Wrap Image with Hero to change with HeroAnimation
-            child: Hero(
-              tag: 'jennie_picture',
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://inikpop.com/wp-content/uploads/2018/12/jennie.jpg')),
-                ),
-              ),
+            Tab(icon: Icon(Icons.comment), text: 'Comment'),
+            Tab(
+              child: Image(image: AssetImage('assets/img/fb_icon.png')),
             ),
-          ),
-        ));
+            Tab(
+              child: Image(image: AssetImage('assets/img/twitter_icon.png')),
+            ),
+          ]),
+          backgroundColor: Colors.blue[50],
+
+          // U need to add TabBarView if are using TabBar, u can redirect to another Page if u want
+          body: TabBarView(children: const [
+            Center(child: Text('Like')),
+            Center(child: Text('Comment')),
+            Center(child: Text('Facebook')),
+            Center(child: Text('Twitter')),
+          ])),
+    );
   }
 }

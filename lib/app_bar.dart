@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 
-AppBar appBar(String title) {
+AppBar appBar(String title, List<Tab> tabMenu) {
   return AppBar(
     leading: Icon(Icons.adb),
+    bottom: TabBar(tabs: tabMenu), // Adding tabBar to appBar
     title: Text(
       title,
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
