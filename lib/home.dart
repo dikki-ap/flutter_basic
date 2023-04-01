@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_basic/colorful_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,16 +9,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: QrImage(
-          data: "123456",
-          // backgroundColor: Colors.grey,
-          // foregroundColor: Colors.amber,
-          errorCorrectionLevel: QrErrorCorrectLevel.M, // U can see documentation on their web
-          size: 300,
-          version: QrVersions.auto,),
+      appBar: AppBar(
+        title: Text('Colorful Button with Transform Widget'),
       ),
+      body: Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ColorfulButton(Colors.red, Colors.blue, Icons.adb),
+          ColorfulButton(Colors.green, Colors.purple, Icons.thumb_up),
+          ColorfulButton(Colors.teal, Colors.orange, Icons.comment),
+          ColorfulButton(Colors.lightBlue, Colors.red, Icons.phone),
+        ],
+      )),
     );
   }
 }
-
