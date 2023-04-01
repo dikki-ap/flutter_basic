@@ -5,7 +5,17 @@ import 'package:flutter/material.dart';
 AppBar appBar(String title, List<Tab> tabMenu) {
   return AppBar(
     leading: Icon(Icons.adb),
-    bottom: TabBar(tabs: tabMenu), // Adding tabBar to appBar
+
+    // Wrap Container using PreferredSize, because "bottom" property need PreferredSize Widget
+    bottom: PreferredSize(
+        preferredSize: Size.fromHeight(tabBar(tabMenu)
+            .preferredSize
+            .height), // Get height tabBar from function
+        // Wrap tabBar using Container to add color
+        child: Container(
+          color: Colors.amber,
+          child: tabBar(tabMenu), // Adding tabBar to appBar
+        )),
     title: Text(
       title,
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -26,3 +36,16 @@ AppBar appBar(String title, List<Tab> tabMenu) {
     ),
   );
 }
+
+// Make a tabBar into Function, to get height from tabBar
+TabBar tabBar(List<Tab> tabMenu) => TabBar(
+    // "indicator" property using BoxDecoration to change backgroundColor when selected
+    // "indicatorColor" property for changing indicator on bottm when selected
+    indicator: BoxDecoration(
+        // "border" property to create border when selected, or u can use "indicatorColor" property
+        border: Border(top: BorderSide(color: Colors.black, width: 5)),
+        gradient: LinearGradient(
+            colors: const [Colors.white, Colors.purple],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight)),
+    tabs: tabMenu);
