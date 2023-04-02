@@ -1,149 +1,97 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_basic/provider/application_color.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+/*
+  -- Provider State Management --
+  If u want to use Provider State Management, u need to add library from pub.dev
+
+  1. U need to create SharedState that implements ChangeNotifier
+  ChangeNotifier functions to notify if there are changes that to the SharedState
+
+  2. U need to wrap the ROOT Widget like Scaffold using "ChangeNotifierProvider" Widget and declare "create" property
+
+  3. If u already create SharedState that implements ChangeNotifer and wrap the ROOT Widget,
+  u need to wrap the Widget that will be changed using "Consumer" Widget
+  "Consumer" Widget will be receive the info about changes from ChangeNotifierProvider
+
+  4. The last one, u need to add "builder" property on each Consumer Widget
+  "builder" property need function that need 3 params, but u can use just 2 params, and leave it the last one with "_"
+*/
+
+// U don't need StatefulWidget if are using Provider State Management
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  // TextEditingController for TextField Controller
-  TextEditingController nameController =
-      TextEditingController(text: 'Default Name');
-
-  // initialCondition for Switch
-  bool isOn = false;
-
-  // initialValue for AnimatedSitcher "child"
-  Widget myWidget = Container(
-    width: 200,
-    height: 100,
-    decoration: BoxDecoration(
-        color: Colors.red, border: Border.all(color: Colors.black, width: 3)),
-  );
-
-  // U need to create a async Function because SharedPref need "await" keyword
-  void saveData() async {
-    // need "await" keyword because "getInstance()" is Future type
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
-    // U can use "setXXX" method with "key" and "value"
-    pref.setString("name", nameController.text);
-    pref.setBool("isOn", isOn);
-  }
-
-  // LOAD DATA FUNCTION
-  Future<String> getName() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
-    // U need to add "??" operator to check if it's null, and give it the default value when it's null
-    return pref.getString("name") ?? "Default Name";
-  }
-
-  // LOAD DATA FUNCTION
-  Future<bool> getON() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
-    // U need to add "??" operator to check if it's null, and give it the default value when it's null
-    return pref.getBool("isOn") ?? false;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // Wrap Scaffold using ChangeNotifierProvider
+    return ChangeNotifierProvider<ApplicationColor>(
+      create: (context) =>
+          ApplicationColor(), // U need "create" property if are using ChangeNotifierProvider
+      // builder: (context, widget) {
+      //   widget = ApplicationColor();
+      // },
+      child: Scaffold(
         appBar: AppBar(
-          title: Text('Shared Preferences'),
+          // Wrap each Widget that will be changed with "Consumer" Widget, and declare "builder" property
+          title: Consumer<ApplicationColor>(
+            builder: (context, applicationColor, _) => Text(
+              'Provider State Management',
+              style: TextStyle(
+                  color: applicationColor
+                      .getColor), // U can use applicationColor.getColor method to get the color depends from the Condition
+            ),
+          ),
+          backgroundColor: Colors.black,
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*
-                -- Animated Switcher --
-                need "duration" and "child" property
-                u can add "transitionBuilder" to change the animation
-                such as Rotation, Scale, etc.
-
-                If u change the same widget, u need add "key" in the Widget
-                but, if u change from widget to another widget u don't need "key"
-              */
-              Column(
-                children: [
-                  AnimatedSwitcher(
-                    duration: Duration(seconds: 1),
-                    transitionBuilder: (child, animation) => RotationTransition(
-                      turns: animation,
-                      child: child,
-                    ),
-                    child: myWidget,
-                  ),
-                  TextField(controller: nameController)
-                ],
+              Consumer<ApplicationColor>(
+                builder: (context, applicationColor, _) => AnimatedContainer(
+                    width: 100,
+                    height: 100,
+                    margin: EdgeInsets.all(8),
+                    color: applicationColor.getColor,
+                    duration: Duration(seconds: 1)),
               ),
-              Switch(
-                  activeColor: Colors.green,
-                  inactiveThumbColor: Colors.red,
-                  inactiveTrackColor: Colors.red[300],
-                  value: isOn,
-                  onChanged: (value) {
-                    setState(() {
-                      isOn = value;
-
-                      if (isOn) {
-                        myWidget = Container(
-                          key: Key(
-                              "1"), // U need to add "key" because this is the same Widget
-                          width: 200,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              border: Border.all(color: Colors.blue, width: 3)),
-                        );
-                      } else {
-                        myWidget = Container(
-                          key: Key(
-                              "0"), // U need to add "key" because this is the same Widget
-                          width: 200,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              border:
-                                  Border.all(color: Colors.black, width: 3)),
-                        );
-                      }
-                    });
-                  }),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        saveData();
-                      },
-                      child: Text('Save')),
-                  ElevatedButton(
-                      onPressed: () {
-                        getName().then((value) {
-                          setState(() {
-                            nameController.text = value;
-                          });
-                        });
-
-                        getON().then((value) {
-                          setState(() {
-                            isOn = value;
-                          });
-                        });
-                      },
-                      child: Text('Load'))
+                  Container(
+                    margin: EdgeInsets.all(8),
+                    child: Consumer<ApplicationColor>(
+                      builder: (context, applicationColor, _) => Text(
+                        'Amber',
+                        style: TextStyle(color: applicationColor.getColor),
+                      ),
+                    ),
+                  ),
+                  Consumer<ApplicationColor>(
+                      builder: (context, applicationColor, _) => Switch(
+                          value: applicationColor.isLightBlue,
+                          onChanged: (newValue) {
+                            applicationColor.isLightBlue = newValue;
+                          })),
+                  Container(
+                    margin: EdgeInsets.all(8),
+                    child: Consumer<ApplicationColor>(
+                      builder: (context, applicationColor, _) => Text(
+                        'Light Blue',
+                        style: TextStyle(color: applicationColor.getColor),
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

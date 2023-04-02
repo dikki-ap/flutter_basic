@@ -9,14 +9,10 @@ void main() {
   //     .then((_) => {runApp(const MyApp())});
 }
 
-class MyApp extends StatefulWidget {
+// U don't need StatefulWidget if are using Provider State Management
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
