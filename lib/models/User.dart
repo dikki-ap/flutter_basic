@@ -83,7 +83,10 @@ class User {
 
     // Loop all listUsers and then store it into "users" using factory
     for (var i = 0; i < listUser.length; i++) {
-      users.add(User.createUser(listUser[i]));
+      // Just take the even id
+      if (listUser[i]['id'] % 2 == 0) {
+        users.add(User.createUser(listUser[i]));
+      }
     }
 
     return users; // Return all users
