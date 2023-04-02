@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   People? people;
   User? user;
-
+  String outputUsers = 'No Data (All Users)';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +30,17 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     (people != null)
                         ? 'id: ${people?.id} | name: ${people?.name} | age: ${people?.age.toString()} | job: ${people?.job} | createdAt: ${people?.createdAt}'
-                        : 'Data not Found',
+                        : 'Data not Found (POST Method)',
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     (user != null)
                         ? 'id: ${user?.id} | first_name: ${user?.first_name} | last_name: ${user?.last_name} | full_name: ${user?.full_name} | email: ${user?.email}'
-                        : 'Data not Found',
+                        : 'Data not Found (GET Method)',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    outputUsers,
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -60,7 +64,19 @@ class _HomePageState extends State<HomePage> {
                           setState(() {});
                         });
                       },
-                      child: Text('GET Method')),
+                      child: Text('GET Single Method')),
+                  ElevatedButton(
+                      onPressed: () {
+                        User.getUsers(1).then((users) {
+                          outputUsers = '';
+                          for (var i = 0; i < users.length; i++) {
+                            outputUsers +=
+                                '[ id: ${users[i].id} | first_name: ${users[i].first_name} | last_name: ${users[i].last_name} | full_name: ${users[i].full_name} email: ${users[i].email} ]\n';
+                          }
+                          setState(() {});
+                        });
+                      },
+                      child: Text('GET ALL Method')),
                 ],
               )
             ],
