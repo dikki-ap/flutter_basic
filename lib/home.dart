@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('API Demo (POST & GET Method)'),
+          title: Text('Switcher & Animated Switcher'),
         ),
         body: Center(
           child: Column(
