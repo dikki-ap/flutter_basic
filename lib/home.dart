@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/provider/application_color.dart';
+import 'package:flutter_basic/provider/cart.dart';
+import 'package:flutter_basic/provider/money.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -27,66 +28,106 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Wrap Scaffold using ChangeNotifierProvider
-    return ChangeNotifierProvider<ApplicationColor>(
-      create: (context) =>
-          ApplicationColor(), // U need "create" property if are using ChangeNotifierProvider
-      // builder: (context, widget) {
-      //   widget = ApplicationColor();
-      // },
+    // If u want to using multiProvider u can't use ChangeNotifierProvider to wrap Scaffold, u need to use MULTIPROVIDER
+    return MultiProvider(
+      providers: [
+        // U can declare all of ChangeNotifier in this property
+        ChangeNotifierProvider(create: (context) => Money()),
+        ChangeNotifierProvider(create: (context) => Cart()),
+      ],
       child: Scaffold(
-        appBar: AppBar(
-          // Wrap each Widget that will be changed with "Consumer" Widget, and declare "builder" property
-          title: Consumer<ApplicationColor>(
-            builder: (context, applicationColor, _) => Text(
-              'Provider State Management',
-              style: TextStyle(
-                  color: applicationColor
-                      .getColor), // U can use applicationColor.getColor method to get the color depends from the Condition
+        /*
+          Because FloatingActionButton need more than 1 Consumer from Money and Cart
+          u need to nested wrap "Consumer" Widget on FloatingActionButton
+         */
+        floatingActionButton: Consumer<Cart>(
+          builder: (context, cart, _) => Consumer<Money>(
+            builder: (context, money, _) => FloatingActionButton(
+              onPressed: () {
+                if (money.balance >= 500) {
+                  cart.quantity += 1;
+                  money.balance -= 500;
+                }
+              },
+              backgroundColor: Colors.purple,
+              child: Icon(
+                Icons.add_shopping_cart,
+              ),
             ),
           ),
-          backgroundColor: Colors.black,
+        ),
+        appBar: AppBar(
+          title: Text('Multi Provider'),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Consumer<ApplicationColor>(
-                builder: (context, applicationColor, _) => AnimatedContainer(
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.all(8),
-                    color: applicationColor.getColor,
-                    duration: Duration(seconds: 1)),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text('Balance'),
                   Container(
+                    width: 150,
                     margin: EdgeInsets.all(8),
-                    child: Consumer<ApplicationColor>(
-                      builder: (context, applicationColor, _) => Text(
-                        'Amber',
-                        style: TextStyle(color: applicationColor.getColor),
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.purple[100],
+                        border: Border.all(color: Colors.purple, width: 2)),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Consumer<Money>(
+                        builder: (context, money, _) => Text(
+                          money.balance.toString(),
+                          style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  Consumer<ApplicationColor>(
-                      builder: (context, applicationColor, _) => Switch(
-                          value: applicationColor.isLightBlue,
-                          onChanged: (newValue) {
-                            applicationColor.isLightBlue = newValue;
-                          })),
-                  Container(
-                    margin: EdgeInsets.all(8),
-                    child: Consumer<ApplicationColor>(
-                      builder: (context, applicationColor, _) => Text(
-                        'Light Blue',
-                        style: TextStyle(color: applicationColor.getColor),
-                      ),
-                    ),
-                  ),
+                  )
                 ],
+              ),
+              Container(
+                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.black, width: 2)),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  // Wrap Row with "Consumer" Widget
+                  child: Consumer<Cart>(
+                    builder: (context, cart, _) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Apple (500) x ${cart.quantity.toString()}',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          (500 * cart.quantity).toString(),
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Consumer<Cart>(
+                builder: (context, cart, _) => Consumer<Money>(
+                  builder: (context, money, _) => ElevatedButton(
+                      onPressed: () {
+                        if (cart.quantity > 0) {
+                          cart.quantity -= 1;
+                          money.balance += 500;
+                        }
+                      },
+                      child: Text('Substract')),
+                ),
               )
             ],
           ),
